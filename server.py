@@ -289,7 +289,7 @@ async def get_guardian_analysis(req: GuardianRequest):
 
 # ── Health Check ──────────────────────────────────────────────────
 
-@app.get("/api/health")
+@app.api_route("/api/health", methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok", "version": "2.0"}
 
@@ -304,7 +304,7 @@ if os.path.exists(frontend_dist):
     if os.path.exists(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
-    @app.get("/{full_path:path}")
+    @app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
     async def serve_frontend(full_path: str):
         if full_path.startswith("api/") or full_path == "api" or full_path.startswith("docs") or full_path == "openapi.json":
             raise HTTPException(status_code=404, detail="Not Found")
