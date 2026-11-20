@@ -12,7 +12,7 @@ class GuardianService:
             self.model = None
         else:
             try:
-                genai.configure(api_key=Config.GOOGLE_API_KEY)
+                genai.configure(api_key=Config.GOOGLE_API_KEY, transport='rest')
                 self.model = genai.GenerativeModel(Config.GEMINI_MODEL_NAME)
             except Exception as e:
                 logger.error(f"Failed to initialize Gemini model in Guardian: {e}")

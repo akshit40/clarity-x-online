@@ -16,8 +16,8 @@ class Config:
     PINECONE_INDEX_NAME = "prescription-index"
     PINECONE_ENV = "us-east-1"
 
-    # Gemini Model - Using a valid model based on available ListModels
-    GEMINI_MODEL_NAME = "gemini-2.5-flash"
+    # Gemini Model - Using latest supported fast model
+    GEMINI_MODEL_NAME = "gemini-3.5-flash-lite"
 
     # Paths
     DATA_DIR = os.path.join(os.getcwd(), "data")

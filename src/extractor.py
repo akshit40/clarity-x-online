@@ -14,7 +14,7 @@ class PrescriptionExtractor:
             self.model = None
         else:
             try:
-                genai.configure(api_key=Config.GOOGLE_API_KEY)
+                genai.configure(api_key=Config.GOOGLE_API_KEY, transport='rest')
                 self.model = genai.GenerativeModel(Config.GEMINI_MODEL_NAME)
                 logger.info("PrescriptionExtractor initialized successfully.")
             except Exception as e:
@@ -92,7 +92,15 @@ class PrescriptionExtractor:
             elif "```" in text:
                 text = text.split("```")[1].split("```")[0]
             
-            result_json = json.loads(text.strip())
+            try:
+                result_json = json.loads(text.strip(), strict=False)
+            except Exception:
+                import re
+                match = re.search(r'\{.*\}', text, re.DOTALL)
+                if match:
+                    result_json = json.loads(match.group(0), strict=False)
+                else:
+                    raise
 
             # ML PIPELINE PHASE 3: Domain-Specific Fuzzy Matching Correction
             from src.fuzzy_drug_matcher import FuzzyDrugMatcher

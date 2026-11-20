@@ -39,3 +39,4 @@ data/
 *.sw?
 Thumbs.db
 desktop.ini
+*.env
